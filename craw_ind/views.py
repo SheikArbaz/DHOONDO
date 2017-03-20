@@ -13,6 +13,7 @@ from django.template import Context, Template,loader
 from django.db import connection #for truncating
 # Create your views here.
 
+<<<<<<< HEAD
 def search(request):
     # hello
     html = "<h1>Indevelopment</h1>"
@@ -21,6 +22,11 @@ def search(request):
 def crawlnow(request):
     keywordsdata.objects.all().delete()
     f = open('/home/chandu/Desktop/sepro/hub_sample.html', 'r')
+=======
+def crawlnow(request):
+    keywordsdata.objects.all().delete()
+    f = open('/root/Desktop/sepro/hub_sample.html', 'r')
+>>>>>>> 39a3fbf0c0de7696baa6754f7eb368143fda5070
     webpage = f.read()
     soup = BeautifulSoup(webpage,"html.parser")
 

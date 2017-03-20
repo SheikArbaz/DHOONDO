@@ -25,5 +25,8 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'template_name': 'logged_out.html'}, name='logout'),
     url(r'^crawl/$', views.crawlnow, name='crawlnow'),
+<<<<<<< HEAD
     url(r'^search/$', views.search, name='search'),
+=======
+>>>>>>> 39a3fbf0c0de7696baa6754f7eb368143fda5070
 ]

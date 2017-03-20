@@ -130,7 +130,11 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+<<<<<<< HEAD
     '/home/chandu/Desktop/sepro/static',
+=======
+    '/root/Desktop/sepro/static',
+>>>>>>> 39a3fbf0c0de7696baa6754f7eb368143fda5070
 )
 
 LOGIN_REDIRECT_URL = 'home'
