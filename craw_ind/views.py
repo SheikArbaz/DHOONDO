@@ -7,6 +7,8 @@ import requests,urllib3,os, string
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
+from .forms import searchForm
+
 import requests,urllib3,os
 from django.template import Context, Template,loader
 
@@ -15,10 +17,14 @@ from django.db import connection #for truncating
 
 def search(request):
     # hello
-    html = "<h1>Indevelopment</h1>"
+    html = ""
+    if request.GET:
+        form = (request.GET).get('searchquery')
+        html = form
+    html += "<h1>Indevelopment</h1>"
     temp = keywordsdata.objects.filter(keyword="student")
     temp = temp[0].location
-    return HttpResponse(temp)
+    return HttpResponse(html)
 
 def crawlnow(request):
     keywordsdata.objects.all().delete()
