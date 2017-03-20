@@ -16,9 +16,9 @@ from django.db import connection #for truncating
 def search(request):
     # hello
     html = "<h1>Indevelopment</h1>"
-    temp = keywordsdata.objects.all().filter(keyword="student")
-    # temp = temp[0].location
-    return HttpResponse()
+    temp = keywordsdata.objects.filter(keyword="student")
+    temp = temp[0].location
+    return HttpResponse(temp)
 
 def crawlnow(request):
     keywordsdata.objects.all().delete()

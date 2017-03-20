@@ -1,0 +1,23 @@
+{% if produtos %}
+          <ul id="flexiselDemo3">
+      {% for produto in produtos %}
+              <li>
+                  <div class="col-md-3 biseller-column">
+                      <a href="single.html">
+                          <img src="{{produto.foto}}"/>
+                          <span class="price">R&#36; {{produto.preco}}</span>
+                      </a>
+                      <div class="ad-info">
+                          <h5>{{produto.nome}}</h5>
+                          <span>{{produto.descricao_curta}}</span>
+                      </div>
+                  </div>
+              </li>
+      {% endfor %}
+      </ul>
+
+{% else %}
+<p id="flexiseDemo3">
+  <h1>nothing found</h1>
+</p>
+{% endif %}
