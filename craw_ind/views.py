@@ -36,8 +36,8 @@ def matching(formlist):
         except:
             pass
 
-
     newlsit = sorted(range(len(linkfreq)), key=lambda x:linkfreq[x])
+    newlsit.reverse()
     # linkfreq.sort(reverse=True)
     # newlsit.sort(reverse=True)
     return newlsit
