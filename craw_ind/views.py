@@ -18,23 +18,25 @@ from django.db import connection #for truncating
 def matching(formlist):
     linkfreq = [0]*100
     qlen = len(formlist)
-    for _ in range(qlen):
-        tempdbstring = keywordsdata.objects.filter(keyword=formlist[_])
-        tempdbstring = str(tempdbstring)
-        tempdbstring = tempdbstring.split("$")                                  #$ removal
+    todel = ""
+    for _ in range(0,qlen):
+        try:
+            tempdbstring = keywordsdata.objects.filter(keyword=formlist[_].lower())
+            todel = str(tempdbstring[0].location)
+            tempdbstring = str(tempdbstring[0].location)
+            tempdbstring = tempdbstring.split("$")                                  #$ removal
 
-        newdbint = list()
+            newdbint = list()
 
-        for i in range(len(tempdbstring)):
-            newdbint.append(int(i))
+            for i in range(len(tempdbstring)):
+                newdbint.append(int(tempdbstring[i]))
 
-        for i in range(len(newdbint)):
-            linkfreq[int(newdbint[i])] += 1
-
-    linkfreq.sort(reverse=True)
+            for i in range(len(newdbint)):
+                linkfreq[int(newdbint[i])] += 1
+        except:
+            pass
+    # linkfreq.sort(reverse=True)
     return linkfreq
-
-
 
 def search(request):
     html = ""
@@ -43,23 +45,17 @@ def search(request):
         form = (request.GET).get('q')
         formlist = re.sub("[^\w]", " ", form).split()                           #spliting words
         formlist = filter(lambda x: x not in stopwords, formlist)               #removing stopwords
-
+        # formlist = formlist.lower
         html = matching(formlist)
 
         # temp = keywordsdata.objects.filter(keyword="student")
     html += "<h1>Indevelopment</h1>"
-    temp = keywordsdata.objects.filter(keyword="student")
-    temp = temp[0].location
+    # temp = keywordsdata.objects.filter(keyword="student")
+    # temp = temp[0].location
     return HttpResponse(html)
 
-def crawlnow(request):
-    keywordsdata.objects.all().delete()
-    f = open('/home/chandu/Desktop/sepro/hub_sample.html', 'r')
-
-def crawlnow(request):
-    keywordsdata.objects.all().delete()
-    f = open('/root/Desktop/sepro/hub_sample.html', 'r')
-    webpage = f.read()
+def crawlpage(newsite,pagenumber):
+    webpage = requests.get(newsite,verify=False).text
     soup = BeautifulSoup(webpage,"html.parser")
 
     noticehead = soup.find_all("a", {"class": "accordion-toggle"})
@@ -81,15 +77,30 @@ def crawlnow(request):
 
     tokenwords = filter(lambda x: x not in string.punctuation, tokenwords)  #punctuation
     tokenwords = filter(lambda x: x not in stop_words, tokenwords)          #stopwords
-    tokenwords = [x for x in tokenwords if len(x) > 2]                      #intergers or other
+    tokenwords = [x for x in tokenwords if len(x) > 1]                      #integers ...still to modify
     tokenwords = list(set(tokenwords))                                      #removing duplicates
 
     for _ in range(len(tokenwords)):
-        indkeywords = keywordsdata(
-            keyword = tokenwords[_],
-            location = "1",
-        )
-        indkeywords.save()
+        try:
+            temp = keywordsdata.objects.filter(keyword=tokenwords[_])
+            strtoapp = str(temp[0].location)
+            strtoapp += "$"+str(pagenumber)
+
+            keywordsdata.objects.filter(keyword=tokenwords[_]).update(location=strtoapp)
+        except:
+            indkeywords = keywordsdata(
+                keyword = tokenwords[_],
+                location = pagenumber,
+            )
+            indkeywords.save()
+
+def crawlnow(request):
+    keywordsdata.objects.all().delete()
+    hubsite = "https://hub.rgukt.ac.in/hub/notice/index/"
+
+    for i in range(5):
+        tempsite = hubsite+str(i)
+        crawlpage(tempsite,i)
 
     template = loader.get_template('crawling.html')
     html = template.render(Context({'finished' : 'done mama'}))
