@@ -35,8 +35,12 @@ def matching(formlist):
                 linkfreq[int(newdbint[i])] += 1
         except:
             pass
+
+
+    newlsit = sorted(range(len(linkfreq)), key=lambda x:linkfreq[x])
     # linkfreq.sort(reverse=True)
-    return linkfreq
+    # newlsit.sort(reverse=True)
+    return newlsit
 
 def search(request):
     html = ""
