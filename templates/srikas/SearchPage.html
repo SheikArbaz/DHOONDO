@@ -1,0 +1,107 @@
+<html>
+	<title> SearchPage </title>
+	<head>
+		<script>
+			function righ()
+			{
+				var a=document.form.s1.value;
+				document.getElementById("down1").innerHTML="Did you mean:     "+a;
+			}
+		</script>
+		<style>
+			#top{
+				width:100%;
+				height:8%;
+				background-color:red;
+			}
+			#left{
+				float:left;
+				width:12%;
+				height:100%;
+				background-color:white;
+			}
+			#right{
+				float:left;
+				width:50%;
+				height:100%;
+				background-color:white;
+			}
+			#right1{
+				float:left;
+				width:38%;
+				height:100%;
+				background-color:white;
+			}
+			#down{
+				float:down;
+				width:100%;
+				height:100%;
+				background-color:white;
+			}
+			#down1{
+				float:left;
+				width:100%;
+				height:10%;
+				background-color:red;
+			}
+			#down2{
+				float:left;
+				width:100%;
+				height:90%;
+				background-color:white;
+			}
+			#down3{
+				float:left;
+				width:5%;
+				height:100%;
+				background-color:white;
+			}
+			#down4{
+				float:left;
+				width:55%;
+				height:100%;
+				background-color:blue;
+			}
+			.buttom {
+			    background-color: blue;
+			    border: 2;
+			    color: white;
+			    padding: 10px 32px;
+			    text-align: center;
+			    text-decoration: none;
+			    display: inline-block;
+			    font-size: 16px;
+			    margin: 4px 2px;
+			    cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<form name="form" >
+			<div id="top">
+				<div id="left">
+					<a href="Login.html"><img src="dhoondo.png" width="100%"  height="100%"></a>		
+				</div>
+				<div id="right">
+					<input type="text" name="s1" style="width:500px; height:50px; font-size:25px" onpress="b1"><input type="button" class="buttom" value="Search" name="b1" onclick="righ()" >
+				</div>
+				<div id="right1" align="right">
+						<input type="button" class="buttom" value="Login" name="b2">
+				</div>
+			</div>
+			<div id="down">
+				<div id="down1">
+			
+				</div>
+				<div id="down2">
+					<div id="down3">
+			
+					</div>
+					<div id="down4">
+			
+					</div>
+				</div>
+			</div>
+		</form>
+	</body>
+</html>

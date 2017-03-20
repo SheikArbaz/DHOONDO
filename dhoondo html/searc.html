@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<title>Dhoondo</title>
+<head>
+<link rel="stylesheet" type="text/css" href="semantic.min.css">
+<script src="semantic.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div id="top">	
+<button class="ui button" id="myBtn">Login</button>
+
+<div id="myModal" class="modal">
+
+  <div class="modal-content">
+    <span class="close">&times;</span>
+	<div class="login-block">
+    <h1>Admin Login</h1>
+    <input type="text" value="" placeholder="Username" id="username" />
+    <input type="password" value="" placeholder="Password" id="password" />
+    <button>Submit</button>
+	</div>
+  </div>
+
+</div>
+</div>
+
+<div id="top3"><center><a href=><img src="D.png" width=350 height=100 align="center" border="0" style=color:red></a></center></div>
+
+<center><div  class="ui action input">
+  <input placeholder="Search..." type="text" size="25px">
+  <button class="ui button">Search</button>
+</div></center>
+</div>
+</body>
+
+<script type="text/javascript">
+var modal = document.getElementById('myModal');
+var btn = document.getElementById("myBtn");
+var span = document.getElementsByClassName("close")[0];
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+span.onclick = function() {
+    modal.style.display = "none";
+}
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }}
+</script>
+</html>

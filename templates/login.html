@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}DHOONDO{% endblock %}
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <!-- <button type="submit">Login</button> -->
+
+    <div id="top">	
+		<button class="ui button" id="myBtn">Login</button>
+		<div id="myModal" class="modal">
+
+  			<div class="modal-content">
+			    <span class="close">&times;</span>
+				<div class="login-block">
+				    <h1>Admin Login</h1>
+				    <input type="text" value="" placeholder="Username" id="username" />
+				    <input type="password" value="" placeholder="Password" id="password" />
+				    <button>Submit</button>
+				</div>
+  			</div>
+  		</div>
+	</div>
+
+  </form>
+{% endblock %}

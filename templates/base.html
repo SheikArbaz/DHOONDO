@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/semantic.min.css">
+  <script src="/static/admin/js/semantic.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/style.css">
+</head>
+
+<body>
+  <header>
+    <!-- <h1>DHOONDO </h1> -->
+    {% if user.is_authenticated %}
+      Hi {{ user.username }}!
+      <a href="{% url 'logout' %}">logout</a>
+    {% else %}
+      <a href="{% url 'login' %}">login</a>
+    {% endif %}
+  </header>
+  <hr>
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+  <hr>
+  <footer>
+    
+  </footer>
+</body>
+</html>
