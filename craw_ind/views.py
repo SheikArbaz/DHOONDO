@@ -17,7 +17,7 @@ from django.db import connection #for truncating
 # Create your views here.
 
 def matching(formlist):
-	linkfreq = [0]*100
+	linkfreq = [0]*50
 	qlen = len(formlist)
 	todel = ""
 	for _ in range(0,qlen):
@@ -39,9 +39,27 @@ def matching(formlist):
 
 	newlsit = sorted(range(len(linkfreq)), key=lambda x:linkfreq[x])
 	newlsit.reverse()
+
+	pagesprio = list()
+	pagesindx = list()
+
+	# print(linkfreq)
+
+	for i in range(len(linkfreq)):
+		if linkfreq[i] > 0:
+			pagesindx.append(i)
+			pagesprio.append(linkfreq[i])
+
+	for x in range(len(pagesindx)):
+		for y in range(len(pagesindx)-x-1):
+			if pagesprio[x] > pagesprio[y]:
+				pagesprio[x],pagesprio[y] = pagesprio[y],pagesprio[x]
+				pagesindx[x],pagesindx[y] = pagesindx[y],pagesindx[x]
+
+	print(pagesindx)
 	# linkfreq.sort(reverse=True)
 	# newlsit.sort(reverse=True)
-	return newlsit
+	return pagesindx
 
 def search(request):
 	html = ""
@@ -97,7 +115,7 @@ def crawlpage(newsite,pagenumber):
 	print("Token words: "+str(len(tokenwords)) + " found in page :"+ str(pagenumber))
 	savecount = 0
 	updatecount = 0
-	
+
 	with transaction.atomic():
 		for _ in range(len(tokenwords)):
 			try:
@@ -117,7 +135,7 @@ def crawlpage(newsite,pagenumber):
 				indkeywords.save()
 	# transaction.commit()
 
-	
+
 	print("Save count: "+str(savecount))
 	print("Update count: "+str(updatecount))
 
