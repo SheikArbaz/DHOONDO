@@ -57,7 +57,7 @@ def search(request):
     # temp = keywordsdata.objects.filter(keyword="student")
     # temp = temp[0].location
     return HttpResponse(html)
-
+    
 def crawlpage(newsite,pagenumber):
     webpage = requests.get(newsite,verify=False).text
     soup = BeautifulSoup(webpage,"html.parser")

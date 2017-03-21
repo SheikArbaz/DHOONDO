@@ -6,47 +6,32 @@
 <link rel="stylesheet" type="text/css" href="static/admin/css/style.css">
 </head>
 <body>
-<div id="top">
-	<button class="ui button" id="myBtn">Login</button>
-		<div id="myModal" class="modal">
 
-  			<div class="modal-content">
-			    <span class="close">&times;</span>
-				<div class="login-block">
-				    <h1>Admin Login</h1>
-				    <input type="text" value="" placeholder="Username" id="username" />
-				    <inputid="your_name" type="password" value="" placeholder="Password" id="password" />
-				    <button>Submit</button>
-				</div>
-  			</div>
-  		</div>
-</div>
+{% if user.is_authenticated %}
+      	<div id="userbuttonself" class="ui animated fade button" tabindex="0">
+		  <div class="visible content">{{ user.username}}</div>
+		  <div class="hidden content">
+		    <a href="{% url 'logout' %}">Logout</a>
+		  </div>
+		</div>
+    {% else %}
+      <a id="userbuttonself" href="{% url 'login' %}" class="postive ui button">Login</a>
 
-<div id="top3"><center><a href=><img src="static/admin/img/dhoondo_logo.png" width="" height="" align="center" border="0" style=color:red></a></center></div>
+{% endif %}
+
+<div><center><a href=><img src="static/admin/img/dhoondo_logo.png" id="logopos" width="" height="" align="center" border="0"></a></center></div>
 
 <center>
 <div  class="ui action input myBtn">
 	<form class="" action="search/" method="GET">
-		<input placeholder="Search..." type="text" id="q" name="q" size="30px"/>
-	  <input class="ui button" type="submit" value="Submit.."/>
+		<div class="ui icon input focus">
+			<input placeholder="Search..." type="text" id="q" name="q" size="30px"/>
+			<i class="search icon"></i>
+		</div>
+	  	<input class="ui secondary basic button" type="submit" value="Search"/>
 	</form>
 </div></center>
 </div>
 </body>
 
-<script type="text/javascript">
-var modal = document.getElementById('myModal');
-var btn = document.getElementById("myBtn");
-var span = document.getElementsByClassName("close")[0];
-btn.onclick = function() {
-    modal.style.display = "block";
-}
-span.onclick = function() {
-    modal.style.display = "none";
-}
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }}
-</script>
 </html>
