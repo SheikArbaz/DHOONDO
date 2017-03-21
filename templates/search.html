@@ -3,12 +3,27 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>{% block title %} {% endblock %}</title>
+  <title>{{searchq}} - Dhoondo Search</title>
   <link rel="stylesheet" type="text/css" href="{% static "admin/css/semantic.min.css" %}">
   <script src="{% static "admin/js/semantic.min.js" %}"></script>
   <link rel="stylesheet" type="text/css" href="{% static "/admin/css/style.css" %}">
 </head>
 
-{{ searchresults }}
-
 <a href=><img id='logosearchpos' src="{% static "/admin/img/dhoondo_logo.png" %}" width="120" height="50" align="left" border="0"></a>
+
+<form class="" action={% url 'search' %} method="GET">
+  <div id="searchpageres" class="ui icon input focus">
+    <input placeholder="{{searchq}}" type="text" id="q" name="q" size="45px"/>
+    <i class="search icon"></i>
+  </div>
+    <input class="ui secondary basic button" type="submit" value="Search"/>
+</form>
+
+<div class="ui raised very padded text container segment">
+  <h2 class="ui header">Search results: <a href="{% url 'search' %}?q={{searchq}}"</a>{{searchq}}</h2>
+  <p></p>
+  <p></p>
+  {% for link in searchresults %}
+    <li><a href="http://hub.rgukt.ac.in/hub/notice/index/{{link}}">http://hub.rgukt.ac.in/hub/notice/index/{{link}}</a></li>
+  {% endfor %}
+</div>

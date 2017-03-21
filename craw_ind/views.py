@@ -8,6 +8,8 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from django.db import transaction
 
+from django.shortcuts import render
+
 from .forms import searchForm
 
 import requests,urllib3,os
@@ -78,13 +80,13 @@ def search(request):
 		html = matching(formlist)
 
 		# temp = keywordsdata.objects.filter(keyword="student")
-
-	template = loader.get_template('search.html')
-	htmls = template.render(Context({'searchresults' : html}))
+		context = { "searchresults" : html, "searchq" : (request.GET).get('q')}
+	# template = loader.get_template('search.html')
+	# htmls = template.render(Context({'searchresults' : html}))
 	# html += "<h1>Indevelopment</h1>"
 	# temp = keywordsdata.objects.filter(keyword="student")
 	# temp = temp[0].location
-	return HttpResponse(htmls)
+	return render(request, 'search.html', context)
 
 def RepresentsInt(s):
 	try:

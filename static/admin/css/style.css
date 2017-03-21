@@ -12,5 +12,12 @@
 
 #logosearchpos{
   margin-top: 20px;
-  margin-left: 40px;
+  margin-left: 350px;
+  margin-bottom: 20px;
+}
+
+#searchpageres{
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-bottom: 20px;
 }
