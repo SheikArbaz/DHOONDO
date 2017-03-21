@@ -141,4 +141,6 @@ STATICFILES_DIRS = (
     # '/home/chandu/Desktop/sepro/static',
 )
 
+STATIC_ROOT = os.path.join(os.path.dirname(__file__), "static/")
+
 LOGIN_REDIRECT_URL = 'home'

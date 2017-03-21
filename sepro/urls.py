@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import TemplateView
 from craw_ind import views
+# from django.contrib.staticfiles.urls import staticfiles.urlpatterns
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

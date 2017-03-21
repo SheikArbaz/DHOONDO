@@ -1,23 +1,14 @@
-{% if produtos %}
-          <ul id="flexiselDemo3">
-      {% for produto in produtos %}
-              <li>
-                  <div class="col-md-3 biseller-column">
-                      <a href="single.html">
-                          <img src="{{produto.foto}}"/>
-                          <span class="price">R&#36; {{produto.preco}}</span>
-                      </a>
-                      <div class="ad-info">
-                          <h5>{{produto.nome}}</h5>
-                          <span>{{produto.descricao_curta}}</span>
-                      </div>
-                  </div>
-              </li>
-      {% endfor %}
-      </ul>
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %} {% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/semantic.min.css" %}">
+  <script src="{% static "admin/js/semantic.min.js" %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static "/admin/css/style.css" %}">
+</head>
 
-{% else %}
-<p id="flexiseDemo3">
-  <h1>nothing found</h1>
-</p>
-{% endif %}
+{{ searchresults }}
+
+<a href=><img id='logosearchpos' src="{% static "/admin/img/dhoondo_logo.png" %}" width="120" height="50" align="left" border="0"></a>

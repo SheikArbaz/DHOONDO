@@ -1,0 +1,11 @@
+#userbuttonself{
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+#logopos{
+    position: relative;
+    margin-top: 150px;
+    margin-left: 90px;
+}

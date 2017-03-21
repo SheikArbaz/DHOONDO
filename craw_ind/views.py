@@ -57,8 +57,12 @@ def matching(formlist):
 				pagesindx[x],pagesindx[y] = pagesindx[y],pagesindx[x]
 
 	print(pagesindx)
-	# linkfreq.sort(reverse=True)
-	# newlsit.sort(reverse=True)
+
+	temphtml = ""
+
+	for i in range(len(pagesindx)):
+		temphtml += "<a href='http://hub.rgukt.ac.in/hub/notice/index/"+ str(pagesindx[i]) + "'>Link Index : " + str(pagesindx[i]) + "</a><br>"
+
 	return pagesindx
 
 def search(request):
@@ -74,10 +78,13 @@ def search(request):
 		html = matching(formlist)
 
 		# temp = keywordsdata.objects.filter(keyword="student")
-	html += "<h1>Indevelopment</h1>"
+
+	template = loader.get_template('search.html')
+	htmls = template.render(Context({'searchresults' : html}))
+	# html += "<h1>Indevelopment</h1>"
 	# temp = keywordsdata.objects.filter(keyword="student")
 	# temp = temp[0].location
-	return HttpResponse(html)
+	return HttpResponse(htmls)
 
 def RepresentsInt(s):
 	try:
