@@ -57,7 +57,14 @@ def search(request):
     # temp = keywordsdata.objects.filter(keyword="student")
     # temp = temp[0].location
     return HttpResponse(html)
-    
+
+def RepresentsInt(s):
+    try:
+        int(s)
+            return True
+    except ValueError:
+        return False
+
 def crawlpage(newsite,pagenumber):
     webpage = requests.get(newsite,verify=False).text
     soup = BeautifulSoup(webpage,"html.parser")
@@ -79,10 +86,10 @@ def crawlpage(newsite,pagenumber):
 
     stop_words = set(stopwords.words("english"))
 
-    tokenwords = filter(lambda x: x not in string.punctuation, tokenwords)  #punctuation
-    tokenwords = filter(lambda x: x not in stop_words, tokenwords)          #stopwords
-    tokenwords = [x for x in tokenwords if len(x) > 1]                      #integers ...still to modify
-    tokenwords = list(set(tokenwords))                                      #removing duplicates
+    tokenwords = filter(lambda x: x not in string.punctuation, tokenwords)                              #punctuation
+    tokenwords = filter(lambda x: x not in stop_words, tokenwords)                                      #stopwords
+    tokenwords = [x for x in tokenwords if len(x) > 1 and RepresentsInt(x)==False]                      #integers ...still to modify
+    tokenwords = list(set(tokenwords))                                                                  #removing duplicates
 
     for _ in range(len(tokenwords)):
         try:
