@@ -8,12 +8,9 @@
 <body>
 
 {% if user.is_authenticated %}
-      	<div id="userbuttonself" class="ui animated fade button" tabindex="0">
-		  <div class="visible content">{{ user.username}}</div>
-		  <div class="hidden content">
-		    <a href="{% url 'logout' %}">Logout</a>
-		  </div>
-		</div>
+			 <a id="userbuttonself" href="/" class="postive huge ui button">{{user.username}}</a>
+			 <a id="userbuttonself" href="/crawl" class="postive huge ui button">Crawl</a>
+			 <a id="userbuttonself" href="{% url 'logout' %}" class="postive huge ui button">Logout</a>
     {% else %}
       <a id="userbuttonself" href="{% url 'login' %}" class="postive huge ui button">Login</a>
 

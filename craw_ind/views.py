@@ -159,6 +159,6 @@ def crawlnow(request):
 		crawlpage(tempsite,i)
 	print("Time take in seconds: "+str(int(time.time()-start)))
 	template = loader.get_template('crawling.html')
-	html = template.render(Context({'finished' : 'done mama'}))
+	html = template.render(Context({'finished' : 'Crawled Successfully'}))
 
 	return HttpResponse(html)
