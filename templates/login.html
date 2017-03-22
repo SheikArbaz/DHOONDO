@@ -1,9 +1,23 @@
-{% extends 'login_extra.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DHOONDO Login</title>
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/semantic.min.css">
+  <script src="/static/admin/js/semantic.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/style.css">
+</head>
 
-{% block content %}
+<body>
+<div><center><a href=><img src="static/admin/img/dhoondo_logo.png" id="logopos" width="" height="" align="center" border="0"></a></center></div>
+
   <form method="post">
     {% csrf_token %}
+    <div>
+    <center>
     {{ form.as_p }}
         <button>Submit</button>
+     </center></div>
   </form>
-{% endblock %}
+</body>
+  </html>

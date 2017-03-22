@@ -1,0 +1,36 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Dhoondo Login</title>
+	<link rel="stylesheet" type="text/css" href="{% static "/admin/css/style2.css" %}">
+	<link rel="shortcut icon" href="{%  static 'admin/img/favicon.ico' %}">
+	  <link rel="stylesheet" type="text/css" href="{% static "admin/css/semantic.min.css" %}">
+	  <script src="{% static "admin/js/semantic.min.js" %}"></script>
+	  <link rel="stylesheet" type="text/css" href="{% static "/admin/css/style.css" %}">
+</head>
+
+<body>
+  <div class="wrapper">
+	<a href="">
+		<center>
+			<img src="static/admin/img/dhoondo_logo.png" id="logologin" width="" height="" align="center" border="0">
+		</center>
+	</a>
+	<div class="container">
+		<!-- {% block content %} -->
+		<form class="form" method="post">
+			{% csrf_token %}
+    		{{ form.as_p }}
+			<button>Submit</button>
+		</form>
+		</div>
+			<!-- {% endblock %} -->
+
+
+
+	</div>
+</div>
+</body>
+</html>

@@ -9,6 +9,7 @@ from nltk.tokenize import word_tokenize
 from django.db import transaction
 
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 from .forms import searchForm
 
@@ -148,11 +149,12 @@ def crawlpage(newsite,pagenumber):
 	print("Save count: "+str(savecount))
 	print("Update count: "+str(updatecount))
 
+@login_required(login_url='/login')
 def crawlnow(request):
 	keywordsdata.objects.all().delete()
 	hubsite = "https://hub.rgukt.ac.in/hub/notice/index/"
 	start = time.time()
-	for i in range(0,50):
+	for i in range(0,2):
 		tempsite = hubsite+str(i)
 		crawlpage(tempsite,i)
 	print("Time take in seconds: "+str(int(time.time()-start)))
