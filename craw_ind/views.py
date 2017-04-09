@@ -18,22 +18,32 @@ from django.template import Context, Template,loader
 
 from django.db import connection #for truncating
 # Create your views here.
+bodynums = defaultdict(list)
+
+def getBodynum(tempdbstring):
+	print(tempdbstring)
+	wordpages = list()
+	for y in tempdbstring:
+		bodynums[int(y.rsplit('_', 1)[0])] = map(int, (y.rsplit('_', 1)[1]).split(','))
+		# print(str(y.split('_',1)[1]))
+	print(bodynums)
 
 def matching(formlist):
 	linkfreq = [0]*50
 	qlen = len(formlist)
 	todel = ""
+	bodynums = defaultdict(list)
 	for _ in range(0,qlen):
 		try:
 			tempdbstring = keywordsdata.objects.filter(keyword=formlist[_].lower())
 			todel = str(tempdbstring[0].location)
 			tempdbstring = str(tempdbstring[0].location)
 			tempdbstring = tempdbstring.split("$")                                  #$ removal
-
+			getBodynum(tempdbstring)
 			newdbint = list()
 
-			for i in range(len(tempdbstring)):
-				newdbint.append(int(tempdbstring[i]))
+			for i in tempdbstring:
+				newdbint.append(int(i.rsplit('_', 1)[0]))
 
 			for i in range(len(newdbint)):
 				linkfreq[int(newdbint[i])] += 1
