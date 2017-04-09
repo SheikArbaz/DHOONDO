@@ -10,7 +10,7 @@
   <link rel="stylesheet" type="text/css" href="{% static "/admin/css/style.css" %}">
 </head>
 
-<a href=><img id='logosearchpos' src="{% static "/admin/img/dhoondo_logo.png" %}" width="120" height="50" align="left" border="0"></a>
+<a href=""><img id='logosearchpos' src="{% static "/admin/img/dhoondo_logo.png" %}" width="120" height="50" align="left" border="0"></a>
 
 <form class="" action={% url 'search' %} method="GET">
   <div id="searchpageres" class="ui icon input focus">
@@ -24,7 +24,9 @@
   <h2 class="ui header">Search results: <a href="{% url 'search' %}?q={{searchq}}"</a>{{searchq}}</h2>
   <p></p>
   <p></p>
-  {% for link in searchresults %}
-    <li><a href="http://hub.rgukt.ac.in/hub/notice/index/{{link}}">http://hub.rgukt.ac.in/hub/notice/index/{{link}}</a></li>
+  {% for link in headt %}
+    {% for head in searchresults %}
+    <li><a href="http://hub.rgukt.ac.in/hub/notice/index/{{head}}">{{link}}</a></li>
+    {% endfor %}
   {% endfor %}
 </div>

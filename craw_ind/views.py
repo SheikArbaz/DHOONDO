@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from craw_ind.models import keywordsdata
+from craw_ind.models import keywordsdata,bodyheads
 import time
 from bs4 import BeautifulSoup
 import requests,urllib3,os, string,re
@@ -18,15 +18,15 @@ from django.template import Context, Template,loader
 
 from django.db import connection #for truncating
 # Create your views here.
-bodynums = defaultdict(list)
+# bodynums = defaultdict(list)
 
-def getBodynum(tempdbstring):
+def getBodynum(tempdbstring,bodynums):
 	print(tempdbstring)
 	wordpages = list()
 	for y in tempdbstring:
 		bodynums[int(y.rsplit('_', 1)[0])] = map(int, (y.rsplit('_', 1)[1]).split(','))
 		# print(str(y.split('_',1)[1]))
-	print(bodynums)
+	return(bodynums)
 
 def matching(formlist):
 	linkfreq = [0]*50
@@ -39,7 +39,8 @@ def matching(formlist):
 			todel = str(tempdbstring[0].location)
 			tempdbstring = str(tempdbstring[0].location)
 			tempdbstring = tempdbstring.split("$")                                  #$ removal
-			getBodynum(tempdbstring)
+			bodynums = getBodynum(tempdbstring,bodynums)
+			print(bodynums)
 			newdbint = list()
 
 			for i in tempdbstring:
@@ -71,12 +72,20 @@ def matching(formlist):
 
 	print(pagesindx)
 
-	temphtml = ""
+	temphtml = list()
+	# print("hje")
+	headersum = list()
+	for j in range(len(pagesindx)):
+		# print(bodynums[j])
+		ckompu = bodynums[pagesindx[j]]
+		for n in ckompu:
+			ttodel = str(pagesindx[j])+"_"+str(n)
+			print(ttodel)
+			headersum.append(bodyheads.objects.get(bid=ttodel).bodyum)
+			# temphtml.append(tedmf.bodyum)
 
-	for i in range(len(pagesindx)):
-		temphtml += "<a href='http://hub.rgukt.ac.in/hub/notice/index/"+ str(pagesindx[i]) + "'>Link Index : " + str(pagesindx[i]) + "</a><br>"
-
-	return pagesindx
+	print(headersum)
+	return pagesindx,headersum
 
 def search(request):
 	html = ""
@@ -88,10 +97,10 @@ def search(request):
 		formlist = re.sub("[^\w]", " ", form).split()                           #spliting words
 		formlist = filter(lambda x: x not in stop_words, formlist)               #removing stopwords
 		# formlist = formlist.lower
-		html = matching(formlist)
+		html,headers = matching(formlist)
 
 		# temp = keywordsdata.objects.filter(keyword="student")
-		context = { "searchresults" : html, "searchq" : (request.GET).get('q')}
+		context = { "searchresults" : html, 'headt' : headers, "searchq" : (request.GET).get('q')}
 	# template = loader.get_template('search.html')
 	# htmls = template.render(Context({'searchresults' : html}))
 	# html += "<h1>Indevelopment</h1>"
@@ -119,22 +128,28 @@ def crawlpage(newsite,pagenumber):
 	wbodyloc = defaultdict(list)
 
 
-	for _ in range(20):
-		noticebody[_] = noticebody[_].get_text().strip().lower()
-		tokenwordstemp = word_tokenize(noticebody[_])
-		tokenwordstemp = filter(lambda x: x not in string.punctuation, tokenwordstemp)
-		tokenwordstemp = filter(lambda x: x not in stop_words, tokenwordstemp)
-		tokenwords += tokenwordstemp
-		presentnotice = tokenwordstemp
-		noticehead[_] = noticehead[_].get_text().strip().lower()
-		tokenwordstemp = word_tokenize(noticehead[_])
-		tokenwordstemp = filter(lambda x: x not in string.punctuation, tokenwordstemp)
-		tokenwordstemp = filter(lambda x: x not in stop_words, tokenwordstemp)
-		tokenwords += tokenwordstemp
-		presentnotice += tokenwordstemp
-		presentnotice = list(set(presentnotice))
-		for j in range(len(presentnotice)):
-			wbodyloc[presentnotice[j]].append(_)
+	with transaction.atomic():
+		for _ in range(20):
+			noticebody[_] = noticebody[_].get_text().strip().lower()
+			tokenwordstemp = word_tokenize(noticebody[_])
+			tokenwordstemp = filter(lambda x: x not in string.punctuation, tokenwordstemp)
+			tokenwordstemp = filter(lambda x: x not in stop_words, tokenwordstemp)
+			tokenwords += tokenwordstemp
+			presentnotice = tokenwordstemp
+			bodyheadum = bodyheads(
+				bid = str(pagenumber)+"_"+str(_),
+				bodyum = noticehead[_].get_text().strip(),
+			)
+			bodyheadum.save()
+			noticehead[_] = noticehead[_].get_text().strip().lower()
+			tokenwordstemp = word_tokenize(noticehead[_])
+			tokenwordstemp = filter(lambda x: x not in string.punctuation, tokenwordstemp)
+			tokenwordstemp = filter(lambda x: x not in stop_words, tokenwordstemp)
+			tokenwords += tokenwordstemp
+			presentnotice += tokenwordstemp
+			presentnotice = list(set(presentnotice))
+			for j in range(len(presentnotice)):
+				wbodyloc[presentnotice[j]].append(_)
 
 	# print(wbodyloc)
 	tokenwords = [x for x in tokenwords if len(x) > 1 ]#and RepresentsInt(x)==False]                      #integers ...still to modify
@@ -174,6 +189,7 @@ def crawlpage(newsite,pagenumber):
 @login_required(login_url='/login')
 def crawlnow(request):
 	keywordsdata.objects.all().delete()
+	bodyheads.objects.all().delete()
 	hubsite = "https://hub.rgukt.ac.in/hub/notice/index/"
 	start = time.time()
 	for i in range(0,2):
