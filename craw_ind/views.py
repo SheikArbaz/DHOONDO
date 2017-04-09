@@ -117,8 +117,8 @@ def crawlpage(newsite,pagenumber):
 
 	stop_words = set(stopwords.words("english"))
 
-	tokenwords = filter(lambda x: x not in string.punctuation and stop_words, tokenwords)                              #punctuation
-	# tokenwords = filter(lambda x: x not in stop_words, tokenwords)                                      #stopwords
+	tokenwords = filter(lambda x: x not in string.punctuation, tokenwords)                              #punctuation
+	tokenwords = filter(lambda x: x not in stop_words, tokenwords)                                      #stopwords
 	tokenwords = [x for x in tokenwords if len(x) > 1 ]#and RepresentsInt(x)==False]                      #integers ...still to modify
 	tokenwords = list(set(tokenwords))                                                                  #removing duplicates
 
@@ -154,7 +154,7 @@ def crawlnow(request):
 	keywordsdata.objects.all().delete()
 	hubsite = "https://hub.rgukt.ac.in/hub/notice/index/"
 	start = time.time()
-	for i in range(0,2):
+	for i in range(0,1):
 		tempsite = hubsite+str(i)
 		crawlpage(tempsite,i)
 	print("Time take in seconds: "+str(int(time.time()-start)))
