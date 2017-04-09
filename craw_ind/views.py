@@ -125,15 +125,8 @@ def crawlpage(newsite,pagenumber):
 		presentnotice = list(set(presentnotice))
 		for j in range(len(presentnotice)):
 			wbodyloc[presentnotice[j]].append(_)
-			# if tokenwords[j] in wbodyloc:
-			# 	wbodyloc[tokenwords[j]].append(_)
-			# 	# print(tokenwords[j]+" yes")
-			# else:
-			# 	wbodyloc[tokenwords[j]] = _
 
-	print(wbodyloc)
-	# tokenwords = filter(lambda x: x not in string.punctuation, tokenwords)                              #punctuation
-	# tokenwords = filter(lambda x: x not in stop_words, tokenwords)                                      #stopwords
+	# print(wbodyloc)
 	tokenwords = [x for x in tokenwords if len(x) > 1 ]#and RepresentsInt(x)==False]                      #integers ...still to modify
 	tokenwords = list(set(tokenwords))                                                                  #removing duplicates
 
@@ -143,17 +136,21 @@ def crawlpage(newsite,pagenumber):
 
 	with transaction.atomic():
 		for _ in range(len(tokenwords)):
+			toappend = wbodyloc[tokenwords[_]]
+			toappend = ','.join(str(num) for num in toappend)
+			toappend = '_'+toappend
+			# print(toappend)
 			try:
 				temp = keywordsdata.objects.filter(keyword=tokenwords[_])
 				strtoapp = str(temp[0].location)
-				strtoapp += "$"+str(pagenumber)
+				strtoapp += "$"+str(pagenumber)+toappend
 				updatecount += 1
 				keywordsdata.objects.filter(keyword=tokenwords[_]).update(location=strtoapp)
 				print("Updating "+tokenwords[_]+" with "+strtoapp)
 			except:
 				indkeywords = keywordsdata(
 					keyword = tokenwords[_],
-					location = pagenumber,
+					location = (str(pagenumber)+toappend),
 				)
 				savecount += 1
 				print("Saving new keyword: "+ tokenwords[_] + " " + str(pagenumber))
@@ -169,7 +166,7 @@ def crawlnow(request):
 	keywordsdata.objects.all().delete()
 	hubsite = "https://hub.rgukt.ac.in/hub/notice/index/"
 	start = time.time()
-	for i in range(0,1):
+	for i in range(0,2):
 		tempsite = hubsite+str(i)
 		crawlpage(tempsite,i)
 	print("Time take in seconds: "+str(int(time.time()-start)))
