@@ -7,7 +7,7 @@ import requests,urllib3,os, string,re
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from django.db import transaction
-
+from collections import defaultdict
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
@@ -105,20 +105,35 @@ def crawlpage(newsite,pagenumber):
 	finalbody = ""
 
 	tokenwords = list()
+	stop_words = set(stopwords.words("english"))
+	wbodyloc = defaultdict(list)
+
 
 	for _ in range(20):
 		noticebody[_] = noticebody[_].get_text().strip().lower()
 		tokenwordstemp = word_tokenize(noticebody[_])
+		tokenwordstemp = filter(lambda x: x not in string.punctuation, tokenwordstemp)
+		tokenwordstemp = filter(lambda x: x not in stop_words, tokenwordstemp)
 		tokenwords += tokenwordstemp
-
+		presentnotice = tokenwordstemp
 		noticehead[_] = noticehead[_].get_text().strip().lower()
 		tokenwordstemp = word_tokenize(noticehead[_])
+		tokenwordstemp = filter(lambda x: x not in string.punctuation, tokenwordstemp)
+		tokenwordstemp = filter(lambda x: x not in stop_words, tokenwordstemp)
 		tokenwords += tokenwordstemp
+		presentnotice += tokenwordstemp
+		presentnotice = list(set(presentnotice))
+		for j in range(len(presentnotice)):
+			wbodyloc[presentnotice[j]].append(_)
+			# if tokenwords[j] in wbodyloc:
+			# 	wbodyloc[tokenwords[j]].append(_)
+			# 	# print(tokenwords[j]+" yes")
+			# else:
+			# 	wbodyloc[tokenwords[j]] = _
 
-	stop_words = set(stopwords.words("english"))
-
-	tokenwords = filter(lambda x: x not in string.punctuation, tokenwords)                              #punctuation
-	tokenwords = filter(lambda x: x not in stop_words, tokenwords)                                      #stopwords
+	print(wbodyloc)
+	# tokenwords = filter(lambda x: x not in string.punctuation, tokenwords)                              #punctuation
+	# tokenwords = filter(lambda x: x not in stop_words, tokenwords)                                      #stopwords
 	tokenwords = [x for x in tokenwords if len(x) > 1 ]#and RepresentsInt(x)==False]                      #integers ...still to modify
 	tokenwords = list(set(tokenwords))                                                                  #removing duplicates
 
