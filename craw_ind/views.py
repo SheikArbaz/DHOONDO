@@ -80,7 +80,7 @@ def matching(formlist):
 		ckompu = bodynums[pagesindx[j]]
 		for n in ckompu:
 			ttodel = str(pagesindx[j])+"_"+str(n)
-			print(ttodel)
+			# print(ttodel)
 			headersum[pagesindx[j]].append(bodyheads.objects.get(bid=ttodel).bodyum)
 			# temphtml.append(tedmf.bodyum)
 
