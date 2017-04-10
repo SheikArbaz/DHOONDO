@@ -24,9 +24,10 @@
   <h2 class="ui header">Search results: <a href="{% url 'search' %}?q={{searchq}}"</a>{{searchq}}</h2>
   <p></p>
   <p></p>
-  {% for head in headt %}
-    {% for link in searchresults %}
-    <li><a href="http://hub.rgukt.ac.in/hub/notice/index/{{link}}">{{head}}</a></li>
-    {% endfor %}
+  {% for key,values in header %}
+      {% for v in values %}
+
+        <li><a href="http://hub.rgukt.ac.in/hub/notice/index/{{key}}">{{v}}</a></li>
+        {% endfor %}        
   {% endfor %}
 </div>

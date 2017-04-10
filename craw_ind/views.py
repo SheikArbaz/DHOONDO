@@ -74,21 +74,21 @@ def matching(formlist):
 
 	temphtml = list()
 	# print("hje")
-	headersum = list()
+	headersum = defaultdict(list)
 	for j in range(len(pagesindx)):
 		# print(bodynums[j])
 		ckompu = bodynums[pagesindx[j]]
 		for n in ckompu:
 			ttodel = str(pagesindx[j])+"_"+str(n)
 			print(ttodel)
-			headersum.append(bodyheads.objects.get(bid=ttodel).bodyum)
+			headersum[j].append(bodyheads.objects.get(bid=ttodel).bodyum)
 			# temphtml.append(tedmf.bodyum)
 
 	print(headersum)
-	return pagesindx,headersum
+	return headersum
 
 def search(request):
-	html = ""
+	noticepages = ""
 	if request.GET:
 		# stopwords = [ 'i', 'me', 'my', 'myself', 'we', 'our', 'ours', 'ourselves', 'you', 'your', 'yours', 'yourself', 'yourselves', 'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself', 'they', 'them', 'their', 'theirs', 'themselves', 'what', 'which', 'who', 'whom', 'this', 'that', 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing', 'a', 'an', 'the', 'and', 'but', 'if', 'or', 'because', 'as', 'until', 'while', 'of', 'at', 'by', 'for', 'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now', 'd', 'll', 'm', 'o', 're', 've', 'y', 'ain', 'aren', 'couldn', 'didn', 'doesn', 'hadn', 'hasn', 'haven', 'isn', 'ma', 'mightn', 'mustn', 'needn', 'shan', 'shouldn', 'wasn', 'weren', 'won', 'wouldn', 'download', 'attachment', 'refer', 'please', 'sd/-', 'i.e', 'ay', 'dear', 's.no']
 		stop_words = set(stopwords.words("english"))
@@ -97,10 +97,11 @@ def search(request):
 		formlist = re.sub("[^\w]", " ", form).split()                           #spliting words
 		formlist = filter(lambda x: x not in stop_words, formlist)               #removing stopwords
 		# formlist = formlist.lower
-		html,headers = matching(formlist)
+		headers = matching(formlist)
+
 
 		# temp = keywordsdata.objects.filter(keyword="student")
-		context = { "searchresults" : html, 'headt' : headers, "searchq" : (request.GET).get('q')}
+		context = { 'header' : headers.items(), "searchq" : (request.GET).get('q')}
 	# template = loader.get_template('search.html')
 	# htmls = template.render(Context({'searchresults' : html}))
 	# html += "<h1>Indevelopment</h1>"
