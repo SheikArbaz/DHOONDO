@@ -141,6 +141,7 @@ def crawlpage(newsite,pagenumber):
 				bid = str(pagenumber)+"_"+str(_),
 				bodyum = noticehead[_].get_text().strip(),
 			)
+			print("Saving Body: "+str(_))
 			bodyheadum.save()
 			noticehead[_] = noticehead[_].get_text().strip().lower()
 			tokenwordstemp = word_tokenize(noticehead[_])
@@ -193,7 +194,8 @@ def crawlnow(request):
 	bodyheads.objects.all().delete()
 	hubsite = "https://hub.rgukt.ac.in/hub/notice/index/"
 	start = time.time()
-	for i in range(0,2):
+	for i in range(0,50):
+		print("Crawling Page: "+str(i))
 		tempsite = hubsite+str(i)
 		crawlpage(tempsite,i)
 	print("Time take in seconds: "+str(int(time.time()-start)))

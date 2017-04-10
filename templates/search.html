@@ -20,14 +20,28 @@
     <input class="ui secondary basic button" type="submit" value="Search"/>
 </form>
 
-<div class="ui raised very padded text container segment">
+<div class="ui raised very padded container segment">
   <h2 class="ui header">Search results: <a href="{% url 'search' %}?q={{searchq}}"</a>{{searchq}}</h2>
   <p></p>
   <p></p>
+  
+  <div class="ui info message">
+  <!-- <i class="close icon"></i> -->
+  <div class="header">
+    Features
+  </div>
+  <ul class="list">
+    <li>Searching Notice</li>
+    <li>Mess</li>
+  </ul>
+</div>
+
   {% for key,values in header %}
       {% for v in values %}
-
-        <li><a href="http://hub.rgukt.ac.in/hub/notice/index/{{key}}">{{v}}</a></li>
+          <div class="ui olive message">
+            <a target="_blank" href="http://hub.rgukt.ac.in/hub/notice/index/{{key}}">{{v}}</a>
+          </div>
+        
         {% endfor %}        
   {% endfor %}
 </div>
