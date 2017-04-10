@@ -21,7 +21,7 @@ from django.db import connection #for truncating
 # bodynums = defaultdict(list)
 
 def getBodynum(tempdbstring,bodynums):
-	print(tempdbstring)
+	# print(tempdbstring)
 	wordpages = list()
 	for y in tempdbstring:
 		bodynums[int(y.rsplit('_', 1)[0])] = map(int, (y.rsplit('_', 1)[1]).split(','))
@@ -40,7 +40,7 @@ def matching(formlist):
 			tempdbstring = str(tempdbstring[0].location)
 			tempdbstring = tempdbstring.split("$")                                  #$ removal
 			bodynums = getBodynum(tempdbstring,bodynums)
-			print(bodynums)
+			# print(bodynums)
 			newdbint = list()
 
 			for i in tempdbstring:
@@ -70,7 +70,7 @@ def matching(formlist):
 				pagesprio[x],pagesprio[y] = pagesprio[y],pagesprio[x]
 				pagesindx[x],pagesindx[y] = pagesindx[y],pagesindx[x]
 
-	print(pagesindx)
+	# print(pagesindx)
 
 	temphtml = list()
 	# print("hje")
@@ -81,10 +81,10 @@ def matching(formlist):
 		for n in ckompu:
 			ttodel = str(pagesindx[j])+"_"+str(n)
 			print(ttodel)
-			headersum[j].append(bodyheads.objects.get(bid=ttodel).bodyum)
+			headersum[pagesindx[j]].append(bodyheads.objects.get(bid=ttodel).bodyum)
 			# temphtml.append(tedmf.bodyum)
 
-	print(headersum)
+	# print(headersum)
 	return headersum
 
 def search(request):
@@ -98,7 +98,6 @@ def search(request):
 		formlist = filter(lambda x: x not in stop_words, formlist)               #removing stopwords
 		# formlist = formlist.lower
 		headers = matching(formlist)
-
 
 		# temp = keywordsdata.objects.filter(keyword="student")
 		context = { 'header' : headers.items(), "searchq" : (request.GET).get('q')}
@@ -141,7 +140,7 @@ def crawlpage(newsite,pagenumber):
 				bid = str(pagenumber)+"_"+str(_),
 				bodyum = noticehead[_].get_text().strip(),
 			)
-			print("Saving Body: "+str(_))
+			# print("Saving Body: "+str(_))
 			bodyheadum.save()
 			noticehead[_] = noticehead[_].get_text().strip().lower()
 			tokenwordstemp = word_tokenize(noticehead[_])
@@ -157,7 +156,7 @@ def crawlpage(newsite,pagenumber):
 	tokenwords = [x for x in tokenwords if len(x) > 1 ]#and RepresentsInt(x)==False]                      #integers ...still to modify
 	tokenwords = list(set(tokenwords))                                                                  #removing duplicates
 
-	print("Token words: "+str(len(tokenwords)) + " found in page :"+ str(pagenumber))
+	# print("Token words: "+str(len(tokenwords)) + " found in page :"+ str(pagenumber))
 	savecount = 0
 	updatecount = 0
 
@@ -180,13 +179,13 @@ def crawlpage(newsite,pagenumber):
 					location = (str(pagenumber)+toappend),
 				)
 				savecount += 1
-				print("Saving new keyword: "+ tokenwords[_] + " " + str(pagenumber))
+				# print("Saving new keyword: "+ tokenwords[_] + " " + str(pagenumber))
 				indkeywords.save()
 	# transaction.commit()
 
 
-	print("Save count: "+str(savecount))
-	print("Update count: "+str(updatecount))
+	# print("Save count: "+str(savecount))
+	# print("Update count: "+str(updatecount))
 
 @login_required(login_url='/login')
 def crawlnow(request):
