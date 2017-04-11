@@ -11,3 +11,10 @@ class keywordsdata(models.Model):
 
     class Meta:
         db_table = "indkeywords" #my own table name
+
+class bodyheads(models.Model):
+    bid = models.CharField(max_length=10,db_index=True)
+    bodyum = models.CharField(max_length=1000)
+
+    class Meta:
+        db_table = "bodyheadum"

@@ -16,7 +16,11 @@
 
 {% endif %}
 
-<div><center><a href=><img src="static/admin/img/dhoondo_logo.png" id="logopos" width="" height="" align="center" border="0"></a></center></div>
+{% if not user.is_authenticated %}
+	<div><center><a href=><img src="static/admin/img/dhoondo_logo.png" id="logopos" width="" height="" align="center" border="0"></a></center></div>
+{% else %}
+	<div><center><a href=><img src="static/admin/img/dhoondo_logo.png" id="logopos2" width="" height="" align="center" border="0"></a></center></div>
+{% endif %}
 
 <center>
 <div  class="ui action input">

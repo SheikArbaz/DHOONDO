@@ -1,9 +1,25 @@
-{% extends 'base.html' %}
-
-{% block title %}See you!{% endblock %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html >
+<head>
+  <meta http-equiv="refresh" content="3;url=/" />
+  <title>See you again</title>
+	<link rel="stylesheet" type="text/css" href="{% static "/admin/css/style2.css" %}">
+	<link rel="shortcut icon" href="{%  static 'admin/img/favicon.ico' %}">
+	  <link rel="stylesheet" type="text/css" href="{% static "admin/css/semantic.min.css" %}">
+	  <script src="{% static "admin/js/semantic.min.js" %}"></script>
+	  <link rel="stylesheet" type="text/css" href="{% static "/admin/css/style.css" %}">
+</head>
+<br>
+<br>
+<br>
 
 {% block content %}
-  <h2>Logged out</h2>
-  <p>You have been successfully logged out.</p>
-  <p><a href="{% url 'login' %}">Log in</a> again.</p>
+<div class="ui raised very padded container segment">
+  <div class="ui success message">
+  		<h2>Logged out</h2>
+  </div>
+  		<p><a href="/">Redirecting to home in 5 seconds</a></p>
+ </div>
 {% endblock %}
+
